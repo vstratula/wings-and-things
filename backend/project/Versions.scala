@@ -4,4 +4,5 @@ object Versions {
   val zioLogging = "2.3.2"
   val enumeratum = "1.7.5"
   val circe      = "0.15.0-M1"
+  val http4s     = "0.23.29"
 }
