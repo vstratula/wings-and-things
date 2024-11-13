@@ -16,7 +16,9 @@ object BackendApiApp extends CatsApp with Http4sDsl[Task] {
   private type Env = Live.Env
 
   override def run: ZIO[Any & ZIOAppArgs & Scope, Any, Any] =
-    makeServer.useForever
+    makeServer
+      .tapZIO(_ => ZIO.logInfo("Server has been started."))
+      .useForever
       .foldCauseZIO(
         err => ZIO.logErrorCause(s"Server failed with error: ${err.prettyPrint}", err).exitCode,
         _ => ZIO.succeed(ExitCode.success),

@@ -18,34 +18,17 @@ RUN mkdir /working/ && \
     rm -r /working/ && \
     sbt sbtVersion
 
-RUN mkdir -p backend-api
-
-# ADD ../. /backend-api
-
 # Устанавливаем рабочую директорию
 WORKDIR /backend-api
 
 # Копируем проект
-COPY ./ ./
+COPY . .
 
 # Сборка проекта
 RUN sbt compile
-# RUN cd /backend-api && sbt compile
-
 
 # Определение переменной окружения PROJECT для запуска нужного модуля
-# ARG PROJECT
-# CMD ["sbt", "project backend-api", "run"]
-# ARG PROJECT
-# CMD ["sbt", "backend-api" "run"]
-# CMD sbt backend-api/run
-# CMD ["sbt", "backend-api/Compile", "run"]
-# CMD sbt "project backend-api" run
 CMD sbt "backend-api/Compile / run"
 
 # Expose порт (замените на нужный, если используется другой)
 EXPOSE 8080
-
-
-# docker build -t backend:0.1 .
-# docker compose up --build --remove-orphans
