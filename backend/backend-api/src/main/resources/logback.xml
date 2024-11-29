@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="local" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%green(%d{HH:mm:ss.SSS}) %highlight(%-5level) %logger{64} [%mdc] - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+<!--        <encoder>-->
+<!--            <pattern>%date{MM/dd HH:mm:ss} %-5level[%thread] %logger{1} - %msg%n</pattern>-->
+<!--        </encoder>-->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
-
-    <appender name="ASYNC_CONSOLE" class="net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender">
-        <appender-ref ref="CONSOLE"/>
-    </appender>
-
-    <root level="${LOG_LEVEL:-INFO}">
-        <appender-ref ref="ASYNC_CONSOLE"/>
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>CONFIDENTIAL_FILTER</Name>
+        <Marker>CONFIDENTIAL</Marker>
+        <OnMatch>DENY</OnMatch>
+    </turboFilter>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
